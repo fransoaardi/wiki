@@ -97,3 +97,37 @@ mux는 결국 request pattern에 가장 적합하게 등록된  mux 내의 Handl
 h, _ := mux.Handler(r)
 h.ServeHTTP(w, r)
 ``` 
+
+--- 
+
+# Handler 사용 3가지 방법
+
+1) Handler type 생성, serveHTTP구현 후 사용
+
+```go
+type johnHandler struct{}
+
+func (h *johnHandler) ServeHTTP (w http.ResponseWriter, r *http.Request){
+   fmt.Fprint(w, "john")
+}
+h1 := johnHandler{}
+http.Handle("/john",&h1)
+```
+
+2) ResponseWriter, *Request 를 param으로 하는 func생성 후 HandleFunc사용
+
+```go
+func john(w http.ResponseWriter, r *http.Request){
+   fmt.Fprint(w, "ABC")
+}
+http.HandleFunc("/abc",john)
+``` 
+
+3) ResponseWriter, *Request 를 param으로 하는 func생성 후 HandlerFunc에 담아 Handle사용
+```go
+func john(w http.ResponseWriter, r *http.Request){
+   fmt.Fprint(w, "ABC")
+}
+j := http.HandlerFunc(john)
+http.Handle("/j",j)
+```
