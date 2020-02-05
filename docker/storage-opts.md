@@ -27,24 +27,24 @@ DOCKER_STORAGE_OPTIONS=
 ```
 # howto
 
-```
+```bash
 # stop docker
 $ sudo systemctl stop docker
 
 # remove /var/lib/docker because prior filesystem may crash with additional setting
-$ sudo rm -rf /var/lib/docker
+sudo rm -rf /var/lib/docker
 
 # change basesize from 10G to 50G
-$ sudo dockerd --storage-opt dm.basesize=50G
+sudo dockerd --storage-opt dm.basesize=50G
 
 # re-run docker
-$ sudo systemctl start docker
+sudo systemctl start docker
 ```
 
 # references
 - https://docs.docker.com/engine/reference/commandline/dockerd/
 
-```
+```bash
 dm.basesize
 Specifies the size to use when creating the base device, which limits the size of images and containers. The default value is 10G. Note, thin devices are inherently “sparse”, so a 10G device which is mostly empty doesn’t use 10 GB of space on the pool. However, the filesystem will use more space for the empty case the larger the device is.
 
