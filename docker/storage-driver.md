@@ -49,7 +49,6 @@ This (size) will allow to set the container rootfs size to 120G at creation time
 > reference: https://docs.docker.com/engine/reference/commandline/run/#set-storage-driver-options-per-container
 
 
-
 # references
 - docker reference on overlay file system
   - https://docs.docker.com/storage/storagedriver/overlayfs-driver/
