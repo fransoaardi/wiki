@@ -1,10 +1,74 @@
 # intro
+
+- when building big-size docker image, ran into error message like `no space left on device`.
+- modification of the previous misleading information
+- in short, previous wiki was wrong, but still don't know how to increase the limitation on the docker image to deal with `no space left on device` other than **decreasing the size of the docker image**.
+
+
+# misleading points
+
+- when googling for the situation, this reference is easily found
+  - https://docs.docker.com/engine/reference/commandline/dockerd/
+
+- but the document above is related to when storage driver is `devicemapper`, but current system (Amazon Linux 2) was 
+based on `overlay2`
+
+- as it can be seen with the console below, it shows `overlay2` storage driver with `xfs` file system
+```
+$ docker info
+
+(...)
+Storage Driver: overlay2
+ Backing Filesystem: xfs
+ Supports d_type: true
+ Native Overlay Diff: true
+Logging Driver: json-file
+Cgroup Driver: cgroupfs
+SType: linux
+Architecture: x86_64
+```
+
+- therefore, `dm.basesize` option should not work
+
+- there is an option like `--storage-opt overlay2.size=1G`
+but it works based on `xfs mounted with the pquota mount option`,
+never tested.
+
+```
+$ docker run -it --storage-opt size=10G alpine:latest /bin/bash
+docker: Error response from daemon: --storage-opt is supported only for overlay over xfs with 'pquota' mount option.
+See 'docker run --help'.
+```
+> console showing failed, on osx. 
+
+```
+Set storage driver options per container
+$ docker run -it --storage-opt size=120G fedora /bin/bash
+This (size) will allow to set the container rootfs size to 120G at creation time. This option is only available for the devicemapper, btrfs, overlay2, windowsfilter and zfs graph drivers. For the devicemapper, btrfs, windowsfilter and zfs graph drivers, user cannot pass a size less than the Default BaseFS Size. For the overlay2 storage driver, the size option is only available if the backing fs is xfs and mounted with the pquota mount option. Under these conditions, user can pass any size less than the backing fs size.
+```
+> reference: https://docs.docker.com/engine/reference/commandline/run/#set-storage-driver-options-per-container
+
+
+
+# references
+- docker reference on overlay file system
+  - https://docs.docker.com/storage/storagedriver/overlayfs-driver/
+- good material
+  - https://www.joinc.co.kr/w/man/12/docker/storage
+- material on setting size driver-option on each container, but doesn't work
+  - https://docs.docker.com/engine/reference/commandline/run/#set-storage-driver-options-per-container
+
+---
+# CAUTION: FROM HERE BELOW, THE MATERIAL CAN MISLEAD. JUST LEFT FOR THE HISTORY
+
+## ~history~
+
 when building docker image, ran into error message like below
 ```
 no space left on device
 ```
 
-# why
+## ~why~
 - when building docker image, docker image may be larger than the default 10G 
 
 - `nothing is set on docker-storage file.`
@@ -25,7 +89,7 @@ $ cat /etc/sysconfig/docker-storage
 
 DOCKER_STORAGE_OPTIONS=
 ```
-# howto
+## ~howto~
 
 ```console
 # stop docker
@@ -41,7 +105,7 @@ sudo dockerd --storage-opt dm.basesize=50G
 sudo systemctl start docker
 ```
 
-# references
+## ~references~
 - https://docs.docker.com/engine/reference/commandline/dockerd/
 
 ```
