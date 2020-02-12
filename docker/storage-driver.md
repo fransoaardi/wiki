@@ -3,7 +3,13 @@
 - when building big-size docker image, ran into error message like `no space left on device`.
 - modification of the previous misleading information
 - in short, previous wiki was wrong, but still don't know how to increase the limitation on the docker image to deal with `no space left on device` other than **decreasing the size of the docker image**.
+- maybe it is not needed to do so
 
+> Most containers have a default 10GB rootfs size when the container is built, so you'll have to use the --storage-opt to 
+resize that. I've encountered containers that have a >10GB rootfs by default, so it can also be set on build if you're 
+building those containers. overlay2 won't resize the rootfs of the container automatically, it just uses the underlying fs of the host so you don't have to configure the storage driver specifically in that case like you do with the devicemapper driver. One option is to just build a xfs partition on your laptop and move storage to that so overlay2 will handle resizing.
+
+> https://www.reddit.com/r/docker/comments/71mift/how_to_increase_docker_container_storage_limit/dnlmyu6/
 
 # misleading points
 
