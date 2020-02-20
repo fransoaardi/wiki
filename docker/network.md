@@ -122,10 +122,12 @@ options timeout:2 attempts:5 ndots:0
 
 
 # references
-docker official docs network overview
-- https://docs.docker.com/network/
-docker official docs using user-defined + default bridge network tutorial
-- https://docs.docker.com/network/network-tutorial-standalone/
-docker network 관련
-- https://bluese05.tistory.com/15 
-- https://jeongchul.tistory.com/636
+- docker official docs network overview
+  - https://docs.docker.com/network/
+
+- docker official docs using user-defined + default bridge network tutorial
+  - https://docs.docker.com/network/network-tutorial-standalone/
+
+- docker network 관련
+  - https://bluese05.tistory.com/15 
+  - https://jeongchul.tistory.com/636
