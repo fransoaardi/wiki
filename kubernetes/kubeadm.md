@@ -104,3 +104,37 @@ $ kubectl run kubia --image=luksa/kubia --port 8080 --generator=run-pod/v1
 $ kubectl expose rc kubia --type=LoadBalancer --name kubia-http
 
 kubectl patch svc kubia-http -p '{"spec": {"type": "LoadBalancer", "externalIPs":["234.234.234.1"]}}'
+
+---
+
+# rhel8 에 docker , kubeadm, kubectl, kubelet 설치 
+
+#docker install 
+dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+dnf list docker-ce
+dnf install docker-ce --nobest -y
+
+#docker restart
+systemctl start docker
+systemctl enable docker
+
+# kubectl/kubeadm/kubelet install
+
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+
+#kubeadm init (master)
+sudo kubeadm init
+
+#kubeadm network setting  (using calico)
+kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml
+
+# kubeadm join (worker)
+sudo kubeadm join 
