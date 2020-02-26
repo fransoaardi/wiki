@@ -85,7 +85,7 @@ sudo systemctl restart kubelet
 - `calico` 를 `network` 로 사용할때는 `--pod-network-cidr` 옵션을 줘야된다.
 > sudo kubeadm init --pod-network-cidr=192.168.0.0/16
 
-- 이후 calico 설치한다
+- 이후 `calico` 설치한다
 > kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml
 
 #### 참고: kube-apiserver, kube-controller-manager, kube-scheduler 의 설정은 어디서 오는가?
