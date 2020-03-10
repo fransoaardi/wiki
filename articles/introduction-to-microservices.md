@@ -3,7 +3,7 @@
 > by Chris Richardson
 - 7부로 되어있음
 
-# introduction to microservices
+# 1부, introduction to microservices
 > https://www.nginx.com/blog/introduction-to-microservices/
 
 `monolithic application` 은 
