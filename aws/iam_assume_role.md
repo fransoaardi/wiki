@@ -3,6 +3,10 @@
 로컬환경에서 `aws sdk` 를 이용해서 session 을 생성하는데, 계정의 개인키를 발급받아서 `~/.aws/credentials`, `~/.aws/config` 에 이미 세팅을 해놓은 상태다.
 deploy 할 EC2 instance 에 적용중인 IAM role 을 이용하는 방식으로 개발/배포 일관성을 맞추려고 했고, `sts:assumeRole` 을 이용하기로 했다.
 
+# references
+> aws 공식 문서 여러개를 참고했으나, 생략함
+- https://aws.amazon.com/ko/premiumsupport/knowledge-center/codebuild-temporary-credentials-docker/
+
 # how-to
  - 로컬에서 identity 를 확인해보면 user 설정(개인계정)이다.
 ```
