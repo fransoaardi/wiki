@@ -161,6 +161,78 @@ func main() {
 }
 ```
 
+### protobuf 명세 관련
+- `import "google/api/annotations.proto";` 추가 
+
+- option 부분을 추가했다. 아래와같이, api path 생성할때, request param 을 추가할 수 있다.
+예를들어 {phase} 는 enum 으로 "DEV", "SPRINT", "RELEASE" 의 대문자값으로 경로가 생성됐는데, 결과적으로 api path 가 /v1/api/DEV/A/12345 와 같이 소문자였으면 좋았을뻔했지만, 
+이 부분이 마음에 들지 않았다. 실제로 enum 이라 valid 한 값이 아니면 grpc-gateway 차원의 error 를 발생했다. 
+```proto3
+service XXXService {
+  rpc ReadItem(GetItemRequest) returns (Item) {
+    option (google.api.http) = {
+      get: "/v1/api/{phase}/{service}/{id}"
+    };
+  }
+
+  rpc CreateItem(Item) returns (Item) {
+    option (google.api.http) = {
+      post: "/v1/api"
+      body: "*"
+    };
+  }
+}
+```
+
+```proto3
+syntax = "proto3";
+package xxx;
+
+import "google/api/annotations.proto";
+
+enum Phase {
+    DEV = 0;
+    SPRINT = 1;
+    RELEASE = 2;
+}
+
+enum Service {
+    UNDEFINED = 0;
+    A = 1;
+    B = 2;
+    C = 3;
+}
+
+message GetItemRequest {
+  Phase phase = 1;
+  Service service = 2;
+  string id = 3;
+}
+
+message Item {
+  Phase phase = 1;
+  Service service = 2;
+  string id = 3;
+  string payload = 4;
+  string timestamp = 5;
+}
+
+service XXXService {
+  rpc ReadItem(GetItemRequest) returns (Item) {
+    option (google.api.http) = {
+      get: "/v1/api/{phase}/{service}/{id}"
+    };
+  }
+
+  rpc CreateItem(Item) returns (Item) {
+    option (google.api.http) = {
+      post: "/v1/api"
+      body: "*"
+    };
+  }
+}
+```
+
 ## swagger 관련
 
 - `npm install swagger-ui-dist` 를 하면 아래와같이 그대로 serving 만 하면 swagger.json 파싱 가능한 ui 가 제공되는 dir 가 생성된다.
