@@ -14,7 +14,7 @@ ch <- struct{}{} // panic: send on closed channel
 
 - select 의 case 는 순서를 보장하지 않는다.
 아래 `ctx1.Done()` 을 `ctx2.Done()` 보다 listening 을 먼저 하고 먼저 응답을 받을 것 같지만, 실행 해보면 값이 자주 바뀐다. 
-```
+```golang
 package main
 
 import (
