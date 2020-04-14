@@ -14,7 +14,7 @@ https://stackoverflow.com/questions/18276173/calling-a-template-with-several-pip
 
 ## template 파일 작성법
 
-```
+```golang
 // test.gohtml
 This is "test.gohtml" template
 It embeds "embed.gohtml"
@@ -95,13 +95,13 @@ if err != nil {
 ## how-to
 
 - 주석
-```
+```golang
 {{/* 성공적인 주석입니다. */}}
 {{ /* {{와 / 사이에 공백이 있어 주석 실패 */ }}
 ```
 
 - if
-```
+```golang
 {{ if }}, {{ end }} 를 이용합니다.
 {{ if eq .value "AAA" }}
   {{ .value }}는 "AAA" 와 같습니다.
@@ -113,7 +113,7 @@ if err != nil {
 ``` 
 
 - else , else if
-```
+```golang
 {{ if }}
   ...
 {{ else if }}
@@ -130,7 +130,7 @@ if err != nil {
 
 if .A != "D" && .B == "B" || .C >= "C" 는 아래와 같다.
 
-```
+```golang
 {{ if or (and (ne .A "D") (eq .B "B")) (ge .C "C") }}
 ```
 
@@ -139,7 +139,7 @@ if .A != "D" && .B == "B" || .C >= "C" 는 아래와 같다.
 local 변수 선언시 항상 변수명 앞에 $를 붙인다.
 변수에는 := 을 이용해서 값을 할당한다.
 
-```
+```golang
 {{ $var := "newVariable" }} {{/* 1차 할당 */}}
 {{ $var := "valueChanged" }} {{/* 새 변수가 아니더라도 := 를 이용한다 */}}
 ``` 
@@ -155,7 +155,7 @@ local 변수 선언시 항상 변수명 앞에 $를 붙인다.
 
 - range
 
-```
+```golang
 {{ range $idx, $col := .collections }}
   {{ $idx }} 번째 {{ $col.value }} 값이 있다.
 {{ end }}
@@ -169,7 +169,7 @@ local 변수 선언시 항상 변수명 앞에 $를 붙인다.
 
 - template
 
-```
+```golang
 {{ template "embed.gohtml" . }}
 ```
 
@@ -180,7 +180,7 @@ local 변수 선언시 항상 변수명 앞에 $를 붙인다.
 
 - block
 
-```
+```golang
 {{ block "embed.gohtml" . }} embed.gohtml 이 없으면 이 값이 대신 포함된다. {{ end }}
 ``` 
 
@@ -191,7 +191,7 @@ local 변수 선언시 항상 변수명 앞에 $를 붙인다.
 아래 두가지 표현식의 결과는 같다.
 html function에 urlQuery를 인자로 던져주고 return을 결과로 한다.
 
-```
+```golang
 {{ .urlQuery | html }}
 {{ html .urlQuery }}
 ``` 
@@ -202,7 +202,7 @@ HTML embed를 위한 string 을 템플릿에 출력시, html escape되어 html�
 
 템플릿에 넘길 data에 아래와 같이 HTML func 를 사용하여 unescape를 명시할 수 있다.
 
-```
+```golang
 htmlString :=  "<div> aaa </div>"
 moTemplate.VarMap["collections"] = []map[string]interface{}{
    {
