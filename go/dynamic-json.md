@@ -52,8 +52,8 @@ const tJson = `
 - `UnmarshalJSON([]byte) error` 를 구현하면 `json.Unmarshaler` 가 된다. 
 > `json.Unmarshal` 호출시, type check 를 해서, `json.Unmarshaler` 인 경우 custom fn 인 `UnmarshalJSON` 을 호출하도록 내부적으로 구현되어있다. 
 
+> below code is from `golang1.14` `json` package `decode.go` line 867:878
 ```go
-// code is from `json` package `decode.go` line 867:878
 func (d *decodeState) literalStore(item []byte, v reflect.Value, fromQuoted bool) error {
 	// Check for unmarshaler.
 	if len(item) == 0 {
