@@ -21,6 +21,25 @@ bin/kafka-topics.sh --create \
 --zookeeper ${zookeeperConnectString} \
 --replication-factor 3 --partitions 1 --topic message-create
 ```
-  
+
+- 아래와 같이 timeout error 발생하며 topic create 가 실패했다
+```
+OpenJDK 64-Bit Server VM warning: If the number of processors is expected to increase from one, then you should configure the number of parallel GC threads appropriately using -XX:ParallelGCThreads=N
+[2020-06-09 04:09:46,023] WARN Client session timed out, have not heard from server in 10023ms for sessionid 0x0 (org.apache.zookeeper.ClientCnxn)
+[2020-06-09 04:09:56,140] WARN Client session timed out, have not heard from server in 10014ms for sessionid 0x0 (org.apache.zookeeper.ClientCnxn)
+[2020-06-09 04:10:06,241] WARN Client session timed out, have not heard from server in 10000ms for sessionid 0x0 (org.apache.zookeeper.ClientCnxn)
+Exception in thread "main" kafka.zookeeper.ZooKeeperClientTimeoutException: Timed out waiting for connection while in state: CONNECTING
+	at kafka.zookeeper.ZooKeeperClient.$anonfun$waitUntilConnected$3(ZooKeeperClient.scala:242)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+	at kafka.utils.CoreUtils$.inLock(CoreUtils.scala:251)
+	at kafka.zookeeper.ZooKeeperClient.waitUntilConnected(ZooKeeperClient.scala:238)
+	at kafka.zookeeper.ZooKeeperClient.<init>(ZooKeeperClient.scala:96)
+	at kafka.zk.KafkaZkClient$.apply(KafkaZkClient.scala:1825)
+	at kafka.admin.TopicCommand$ZookeeperTopicService$.apply(TopicCommand.scala:262)
+	at kafka.admin.TopicCommand$.main(TopicCommand.scala:53)
+	at kafka.admin.TopicCommand.main(TopicCommand.scala)
+```
+
+- kafka subnet 의 default-security-group 의 inbound 규칙에 client 의 security-group id 로 부터 오는 모든 traffic 을 추가해서 해결
 
 
