@@ -42,4 +42,18 @@ Exception in thread "main" kafka.zookeeper.ZooKeeperClientTimeoutException: Time
 
 - kafka subnet 의 default-security-group 의 inbound 규칙에 client 의 security-group id 로 부터 오는 모든 traffic 을 추가해서 해결
 
+- kafka consumer 를 이용한 topic 에 데이터가 잘 들어갔는지 확인 
+```
+./kafka-console-consumer.sh \
+--bootstrap-server "${serverString}" \
+--topic message-create \
+--group message-create-group \
+--from-beginning
+```
 
+- kafka consumer group 목록 확인
+```
+./kafka-consumer-groups.sh \
+--bootstrap-server "${serverString}" \
+--list
+```
