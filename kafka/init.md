@@ -57,3 +57,9 @@ Exception in thread "main" kafka.zookeeper.ZooKeeperClientTimeoutException: Time
 --bootstrap-server "${serverString}" \
 --list
 ```
+
+- kafka cluster 정보 확인 (awscli)
+```
+aws kafka describe-cluster --region ap-northeast-2 --cluster-arn "${arnString}"
+```
+
