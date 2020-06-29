@@ -63,3 +63,7 @@ Exception in thread "main" kafka.zookeeper.ZooKeeperClientTimeoutException: Time
 aws kafka describe-cluster --region ap-northeast-2 --cluster-arn "${arnString}"
 ```
 
+- kafka topic partition 갯수 변경 
+```
+./kafka-topics.sh --bootstrap-server "${serverString}" --alter --topic translate-request --partitions 5
+```
