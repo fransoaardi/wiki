@@ -3,6 +3,8 @@
 - android 에서 google cloud speech API 를 사용중이다. 
 - android sample code 를 보면, speech API .proto 파일을 직접 가져다가 protoc 해서 사용하고 있다.
 - java 에서는 gradle dependency 에 등록하고 사용하면 된다고 하는데, 굳이 직접 compile 까지 해가면서 사용할 이유가 있을까?
+- google cloud java sample 참고해서 작업해보려는데 아래와 같은 의미심장한 말이 적혀있음, 지금도 유효한 말인지 알 길은 없음.(하지만 유효해 보인다..)
+> [`참고: Cloud 자바 클라이언트 라이브러리는 현재 Android를 지원하지 않습니다.`](https://cloud.google.com/speech-to-text/docs/quickstart-client-libraries)
 
 # progress
 ## expected problem
