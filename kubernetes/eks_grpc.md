@@ -40,6 +40,7 @@ ip-10-0-0-83.ap-northeast-2.compute.internal   Ready    <none>   5d17h   v1.17.9
 #### references
 - k8s 에 cert-manager 설치: https://cert-manager.io/docs/installation/kubernetes/
 - cert-manager 로 인증서 발급받고, ingress 에 설정: https://cert-manager.io/docs/tutorials/acme/ingress/
+- ingress-nginx 에 gRPC 를 전달하기 위한 참고 example: https://github.com/kubernetes/ingress-nginx/tree/master/docs/examples/grpc
 
 > cert 관련 yaml
 ```yaml
