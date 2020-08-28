@@ -36,6 +36,15 @@ bb.walk() // 가능하다
 | Walker | O | O |
 | RunnerWalker | X | O |
 
+> references 2번 에서 발췌함
+```
+This because, a method with pointer or value receiver can be called on both value and pointer
+and the conversion from value to a pointer or pointer to a value suitable to be passed as a receiver
+for the method call is done by Go under the hood (as seen in methods lesson).
+Hence, at compile time, both pointer and value can be stores in a variable of type interface. 
+However, when calling a method on interface itself,
+the dynamic type is considered at runtime and dynamic value is passed as the receiver to the method.
+```
 
 
 ## code with comments
