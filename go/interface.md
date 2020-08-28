@@ -4,13 +4,13 @@
 - 최초 궁금했던 부분에서.. 실험을 진행하다보니 온갖 실험을 해봤다.
 
 1. golang 에서 interface 를 구현(implement)할때 receiver 를 일부는 Pointer, 일부는 Value 로 하면 어떤일이 발생할지 궁금해졌다.
-  - 내용일 길어서 결과는 아래 참고.
-2. v, ok := val.(*X) 와 같은 assertion fail (ok==false) 했을때, v 값은 nil 일까 &X{} 일까?
+  - 내용이 길어서 결과는 아래 참고.
+2. `v, ok := val.(*X)` 와 같은 assertion fail (`ok==false`) 했을때, `v` 값은 `nil` 일까 `&X{}` 일까?
   - 정답: nil 이다
 3. interface 선언을 inlining 해보고싶은데, `var x io.Reader` 형태밖에 없을까?
   - 조금 이상하긴 하지만, `x := interface{}(nil)` 과 같은 형태도 가능하다.
-4. type assertion 할때 i.(T) 라고 할때 i 는 interface, T 는 type 이라 알고있는데, T 위치에 interface 정의한것을 본것같은데?
-> 아래와 같이 가능하다, T 부분에 walk() 를 구현하는 concrete 한 type 을 정의했다고 볼 수 있나보다... (솔직히 잘 모르겠다)
+4. type assertion 할때 `i.(T)` 라고 할때 `i` 는 interface, `T` 는 type 이라 알고있는데, `T` 위치에 interface 정의한것을 본것같은데?
+> 아래와 같이 가능하다, `T` 부분에 `walk()` 를 구현하는 concrete 한 type 을 정의했다고 볼 수 있나보다... (솔직히 잘 모르겠다)
 ```golang
 bb, ok := k.(interface{
 		walk()
@@ -21,13 +21,17 @@ bb.walk() // 가능하다
 
 ## 1번에 대한 tl;dr;
 - 해당 type 을 직접 선언해서 사용할때는 Pointer 로 선언하나 Value 로 선언하나 똑같이 호출 가능하다. 
+> `X`든 `&X` 든 run(), walk() 는 모두 호출이 가능하다
+
 - 다만, 해당 interface 로 선언한 변수에 type 을 할당한다면 문제가 생긴다. Pointer 로 전달했을때만 가능하다 
+> interface 로 정의된 변수에 동적으로 할당할때 문제가 생긴다. (Pointer 로 전달하는건 괜찮다)
 
 | | X | *X |
 |---|---|---|
 | Runner | X | O |
 | Walker | O | O |
 | RunnerWalker | X | O |
+
 
 
 ## code with comments
