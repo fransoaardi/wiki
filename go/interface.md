@@ -1,5 +1,9 @@
 # golang interface 에 대한 실험
 
+## references
+- https://medium.com/golangspec/type-assertions-in-go-e609759c42e1
+- https://medium.com/rungo/interfaces-in-go-ab1601159b3a
+
 ## introduction
 - 최초 궁금했던 부분에서.. 실험을 진행하다보니 온갖 실험을 해봤다.
 
