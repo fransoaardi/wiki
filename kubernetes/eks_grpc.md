@@ -1,10 +1,10 @@
 # introduction 
 - gRPC 를 사용하는 app 을 aws EKS 를 사용하여 deploy, gRPC 를 이용한 API call 을 성공하는 과정을 다룬다. 
 - EKS 와 함께 사용하는 fargate 를 이용하진 않았다. 
+- 아직 미완성 문서
 
 # important notes
 - gRPC 연결에 있어, tls termination 부분이 주요하게 작용함
-- 
 
 # architecture
 | source | destination | comment |
@@ -27,7 +27,6 @@ ip-10-0-0-83.ap-northeast-2.compute.internal   Ready    <none>   5d17h   v1.17.9
 # issues
 ## tls 관련
 - dns 적용해서 호출하고 싶은데, tls 세팅을 해놓지 않으면 호출이 불가능한 이슈가 생김 
-- 
 
 ### NLB tls termination 적용 
 - aws NLB 에서 tls termination 을 지원함 
@@ -91,18 +90,40 @@ spec:
           serviceName: service-to-call
           servicePort: grpc
 ```
- 
+
+> `service` yaml
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ht-gateway-service
+  namespace: dev
+spec:
+  selector:
+    app: ht-gateway
+  ports:
+  - port: 80
+    targetPort: 8000
+    name: grpc     # name grpc 로 명세함
+```
  
 # howto call from client
 - tls 적용이 되어있기 때문에, client 에서 호출할때도 insecure 로 하면 안된다.
-- 이전코드:
-```
+- 이전코드: (conn 획득까지의 코드)
+```golang
+var opts []grpc.DialOption
+opts = append(opts, grpc.WithInsecure())
 
+conn, err := grpc.DialContext(
+			ctx,
+			viper.GetString("address"),
+			opts...,
+)
 ```
 - 이후코드:
+```golang
+var opts []grpc.DialOption
+config := &tls.Config{}
+opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(config)))
+(...)
 ```
-
-```
-
-
-- 
