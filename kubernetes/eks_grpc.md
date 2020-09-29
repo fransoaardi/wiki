@@ -1,7 +1,6 @@
 # introduction 
 - gRPC 를 사용하는 app 을 aws EKS 를 사용하여 deploy, gRPC 를 이용한 API call 을 성공하는 과정을 다룬다. 
 - EKS 와 함께 사용하는 fargate 를 이용하진 않았다. 
-- 아직 미완성 문서
 
 # important notes
 - gRPC 연결에 있어, tls termination 부분이 주요하게 작용함
@@ -35,11 +34,40 @@ ip-10-0-0-83.ap-northeast-2.compute.internal   Ready    <none>   5d17h   v1.17.9
   - 문제점: gRPC 전달이 안됐음 
   - 따라서, NLB 에 tls 적용하는건 제외하고 ingress 이후 구간 tls 암호화를 적용하도록함 (단, NLB 가 :443 listen 하여 forward 함 )
 
+> aws load balancer(network lb) setting
+![image](https://user-images.githubusercontent.com/34496756/94549728-9d70ed00-028d-11eb-9946-61d5ad4f1703.png)
+
+
 ### certmanager 를 이용한 인증서 발급
 #### references
 - k8s 에 cert-manager 설치: https://cert-manager.io/docs/installation/kubernetes/
 - cert-manager 로 인증서 발급받고, ingress 에 설정: https://cert-manager.io/docs/tutorials/acme/ingress/
 - ingress-nginx 에 gRPC 를 전달하기 위한 참고 example: https://github.com/kubernetes/ingress-nginx/tree/master/docs/examples/grpc
+
+> cert-manager 설치 using helm3
+```
+$ helm repo add jetstack https://charts.jetstack.io
+$ helm repo update
+
+# installCRDs 를 설정 안했더니, Certificate resource 를 찾지 못해서 certmanager 를 지웠다가 새로 설치함 
+$ helm install \
+  cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --version v1.0.2 \
+  --set installCRDs=true
+
+# helm 지우는 script
+$ helm --namespace cert-manager delete cert-manager
+
+# certmanager create 하면 아래와 같이 에러가 나서 아래 링크를 보고 실행함. (어떻게 동작하는진 모르겠음)
+$ kubectl apply -f cert-prod-issuer.yaml
+
+Error from server (InternalError): error when creating "cert-prod-issuer.yaml": Internal error occurred: failed calling webhook "webhook.cert-manager.io": Post https://cert-manager-webhook.cert-manager.svc:443/mutate?timeout=10s: x509: certificate signed by unknown authority
+- https://github.com/jetstack/cert-manager/issues/2602
+
+$ kubectl delete mutatingwebhookconfiguration.admissionregistration.k8s.io cert-manager-webhook
+$ kubectl delete validatingwebhookconfigurations.admissionregistration.k8s.io cert-manager-webhook
+```
 
 > cert 관련 yaml
 ```yaml
