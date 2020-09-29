@@ -155,3 +155,8 @@ config := &tls.Config{}
 opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(config)))
 (...)
 ```
+
+# 보안그룹
+- EKS 생성시에 보안그룹을 설정했기때문에 같은 vpc 내에 같은 보안그룹이 걸려있는 경우에 방화벽 문제가 발생하지 않을것이라고 생각했었다.
+- 그러나, eks 의 master 에 보안그룹이 적용된 것이고, worker node 에는 보안그룹이 적용이 되지 않았어서 ec2 찾아다니면서 보안그룹 수동 적용이 필요했다.
+
