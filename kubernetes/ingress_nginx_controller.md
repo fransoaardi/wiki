@@ -23,5 +23,5 @@ There are plans for future releases to allow using the Kubernetes annotations to
 - `grpc_read_timeout`, `grpc_send_timeout` 등을 적용할때는 k8s annotation 이 별도로 제공되진 않고, `server-snippet` annotation 을 이용해서 별개로 적용해줘야된다.
 
 #### special thanks to
-> jontro 의 thread 에서 해답을 찾을 수 있었다. 감사합니다.
+> jontro 의 thread 에서 해답을 찾을 수 있었다, lucky3leaf 이 삽질을 함께 도와주었다. 감사합니다.
 - https://github.com/jontro
