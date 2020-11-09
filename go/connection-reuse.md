@@ -1,6 +1,7 @@
 # connection-reuse 
 ## introduction
 - golang server 의 file descriptor 고갈이 일어나서, request 를 못받고 hang 이 발생한 경우가 있어, connection 관련 실험을 해보기로 했다.
+- http2, gRPC 인 경우는 다르게 동작하겠지만 일단은 http1.1 을 기준으로 테스트함
 
 ## environment
 - osx 
